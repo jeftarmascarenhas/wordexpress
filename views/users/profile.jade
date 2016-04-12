@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+	h1 #{data.fullname}
+	p #{data.email}
+	time #{moment(data.create_date).format('DD/MM/YYY HH:MM:ss')}
+
+	br
+	a(href='/usuarios/edit/#{data._id}', class='btn btn-primary btn-sm') Editar
+	br
+	form(method='post', action='/usuarios/delete/#{data._id}', role='form', id='delete-form')
+		button(type='submit', class='btn btn-danger') Excluir
+
+block scripts
+	script(type='text/javascript').
+		$(document).ready(function(){
+			$('#delete-form').submit(function () {
+				var pergunta = confirm('Deseja realmente excluir?'); 
+			});
+		});
+		

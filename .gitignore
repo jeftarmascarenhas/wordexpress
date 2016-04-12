@@ -1,0 +1,11 @@
+# Ignorar pasta
+/node_modules
+/bower_components
+/puclic/assets/lib
+
+# Ignorar arquivo
+npm-debug.log
+*.~
+*.swp
+*.swo
+*.log

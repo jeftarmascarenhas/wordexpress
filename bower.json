@@ -1,0 +1,24 @@
+{
+  "name": "wordexpress",
+  "version": "0.0.1",
+  "authors": [
+    "jefter <jeftarmascarenhas@hotmail.com>"
+  ],
+  "description": "CSM site",
+  "keywords": [
+    "CMS",
+    "Site",
+    "Blog"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "v4.0.0-alpha.2"
+  }
+}

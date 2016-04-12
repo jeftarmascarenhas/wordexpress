@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+	h1 Edite de usuário
+	p Id: #{data._id}
+	form(enctype='x-www-form-ulrencoded', method='POST', action='/usuarios/edit/#{data._id}', role='form')
+		div(class='form-group')
+			label(for='fullname') Nome:
+			input(type='text', class='form-control', placeholder='Digite seu nome' id='fullname', value='#{data.fullname}' name='fullname')
+		div(class='form-group')
+			label(for='email') E-mail:
+			input(type='email', class='form-control', placeholder='Digite seu e-mail', value='#{data.email}' id='email', name='email')
+		div(class='form-group')
+			label(for='password') Senha:
+			input(type='password', class='form-control', placeholder='Digite sua senha',  id='password', name='password')
+		div(class='form-group')
+			label(for='confirm-password') Digite novamente Senha:
+			input(type='password', class='form-control', placeholder='Digite sua senha',  id='confirm-password', name='confirm-password')
+
+		input(type='submit', class='btn btn-success', value='Salva')
