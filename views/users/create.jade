@@ -2,18 +2,25 @@ extends ../layout
 
 block content
 	h1 Cadastro de usuários
+	br
+	br
+	if messages.erro
+		div(class='alert alert-danger')
+			each msg in messages.erro
+				b= msg
+				br
 	form(enctype='x-www-form-ulrencoded', method='POST', action='/usuarios/cadastro/', role='form')
 		div(class='form-group')
 			label(for='fullname') Nome:
-			input(type='text', class='form-control', placeholder='Digite seu nome' id='fullname', name='fullname')
+			input(type='text', class='form-control', placeholder='Digite seu nome' value='#{user.fullname || ""}' id='fullname', name='fullname' autofocus, required)
 		div(class='form-group')
 			label(for='email') E-mail:
-			input(type='email', class='form-control', placeholder='Digite seu e-mail', id='email', name='email')
+			input(type='email', class='form-control', placeholder='Digite seu e-mail', value='#{user.email || ""}' id='email', name='email', required)
 		div(class='form-group')
 			label(for='password') Senha:
-			input(type='password', class='form-control', placeholder='Digite sua senha', id='password', name='password')
+			input(type='password', class='form-control', placeholder='Digite sua senha', id='password', name='password', required)
 		div(class='form-group')
-			label(for='confirm-password') Digite novamente sua Senha:
-			input(type='password', class='form-control', placeholder='Digite novamente sua senha',  id='confirm-password', name='confirm-password')
+			label(for='confirm_password') Digite novamente sua Senha:
+			input(type='password', class='form-control', placeholder='Digite novamente sua senha',  id='confirm_password', name='confirm_password', required)
 
 		input(type='submit', class='btn btn-success', value='Salva')

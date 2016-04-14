@@ -8,14 +8,14 @@ block content
 	br
 	a(href='/usuarios/edit/#{data._id}', class='btn btn-primary btn-sm') Editar
 	br
-	form(method='post', action='/usuarios/delete/#{data._id}', role='form', id='delete-form')
+	form(method='POST', action='/usuarios/delete/#{data._id}', role='form', id='delete-form', enctype='x-www-form-ulrencoded')
 		button(type='submit', class='btn btn-danger') Excluir
 
 block scripts
 	script(type='text/javascript').
-		$(document).ready(function(){
-			$('#delete-form').submit(function () {
-				var pergunta = confirm('Deseja realmente excluir?'); 
-			});
-		});
-		
+		$('#delete-form').submit(function () {
+			var pergunta = confirm('Deseja realmente excluir?'); 
+			if(!pergunta){
+				return false;
+			}
+		});		

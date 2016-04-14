@@ -1,5 +1,6 @@
 'use strict';
 
+var validation = require('../validacoes/users');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var msg = '';
@@ -9,33 +10,6 @@ module.exports = {
 		res.render('./users/index', {lista: msg});
 	},
 
-	create: function (req, res) {
-		res.render('./users/create' , {title:'Cadastro de usuário'});
-	},	
-	post: function (req, res) {
-		var model 		=  new User();
-
-		model.fullname 	= req.body.fullname;
-		model.email 	= req.body.email;		
-		model.password 	= model.generateHash(req.body.password);
-		
-		
-		model.save(function (err, data) {
-			if(err){
-				msg = err;
-				console.log('Error: ' , msg);
-				req.flash('erro' , 'Erro ao cadastrar: ' + msg);
-				res.redirect('/usuarios');
-			}else{
-				msg = data;
-				// req.flash('info', 'Flash is back!')
-				// res.redirect('/usuarios/lista');
-			}
-				res.json(msg);
-
-		});
-
-	},
 	/**
 	 * [Controller responsável pela rota de listar usuários]
 	 * @param  {[type]} req [request lista]
@@ -48,7 +22,6 @@ module.exports = {
 				msg = err
 				console.log('Error Find: ', msg);
 
-				req.flash('erro', 'Erro ao buscar usuários: ' +  msg);
 				res.redirect('/usuarios');
 
 			}else{
@@ -58,13 +31,46 @@ module.exports = {
 		});
 	},
 
+	create: function (req, res) {
+		res.render('./users/create' , {title:'Cadastro de usuário', user: new User()});
+	},
+	post: function (req, res) {
+		if(validation(req, res)){
+			var model 		=  new User();
+			model.fullname 	= req.body.fullname;
+			model.email 	= req.body.email;
+			model.password 	= model.generateHash(req.body.password);
+			User.findOne({'email': model.email}, function (err, data) {
+				if(data){
+					req.flash('erro', 'E-mail encontra-se cadastrado, tente outro e-mail');
+					res.render('./users/create', {user: req.body})
+				}else{
+					model.save(function (err, data) {
+						if(err){
+							msg = err;
+							req.flash('erro', 'Error ao Cadastrar:' + erro);
+							res.render('./users/create', {user: req.body});
+						}else{
+							msg = data;
+							req.flash('info', 'Usuário cadastrado com sucesso!');
+							res.redirect('/usuarios/lista');
+						}
+
+					});
+				}
+			});
+
+		}else{
+			res.render('./users/create', {user: req.body});
+		}
+
+	},
+
 	findOne: function (req, res, cb) {
 		var query = {_id: req.params.id};
 		User.findOne(query, function (err, data) {
 			if(err){
 				msg = err;
-				console.log('Erro ao lista usuário: ' + msg);
-				req.flash('erro', 'Erro ao visualizar usuário' + err);
 				res.redirect('/usuarios');
 			}else{
 				msg = data
@@ -75,17 +81,48 @@ module.exports = {
 		});
 	},
 
+	edit: function (req, res) {
+		if(validation(req, res)){
+			var query = {_id: req.params.id};
+			User.findById(query, function (err, data) {
+				if(err){
+					msg = err;
+					res.redirect('/usuarios/lista');
+				}else{
+					res.render('./users/edit', {data: data});
+				}
+			});
+
+		}else{
+			User.findOne(query, function (err, data) {
+				if(err){
+					req.flash('erro', 'Não foi possível busca o usuário');
+					res.redirect('/usuarios/lista');
+				}else{
+					res.render('./users/edit', {data: data});
+				}
+			});
+		}
+	},
+
 	update: function (req, res) {
 		var query = {_id: req.params.id};
-		var mod = req.body;
-		User.update(query, function (err, data) {
+		var mod = {};
+
+		mod.fullname = req.body.fullname;
+		mod.email = req.body.email;
+		mod.password = req.body.password;
+
+		User.update(query, mod, function (err, data) {
 			if(err){
 				msg = err;
 				console.log('Error: ' , msg);
-			}
+			}else{
 				msg = data;
-			res.render('./users/edit', {title:'Edita usuário', data: data});
-		});	
+				res.redirect('/usuarios/lista');
+			}
+			// res.json(msg);
+		});
 	},
 
 	delete: function (req, res) {
@@ -93,17 +130,13 @@ module.exports = {
 
 		User.remove(query, function (err, data) {
 			if(err){
-				console.log('Error ao deletar: ' + err);
-				req.flash('erro', 'Erro ao deletar: ' + err);
+				msg = erro;
+				req.flash('error', 'Usuário não pode ser excluído!');
 				res.redirect('/usuarios/lista');
 			}else{
-				msg = data;
-				console.log('Sucess ao deletar usuário: ' + msg);
-				req.flash('info', 'Usuário deletado com sucesso.');
+				req.flash('info', 'Usuário excluído');
 				res.redirect('/usuarios/lista');
 			}
-
-			// res.json(data);
 
 		});
 	}

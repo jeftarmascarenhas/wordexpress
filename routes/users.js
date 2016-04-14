@@ -30,7 +30,7 @@ router.get('/lista', function(req, res, next) {
  * @return {[type]}      [Render page create users]
  */
 router.get('/cadastro', function (req, res) {
-	
+
 	Controller.create(req, res);
 });
 
@@ -43,6 +43,10 @@ router.get('/profile/:id', function (req, res) {
 });
 
 router.get('/edit/:id', function (req, res) {
+	Controller.edit(req, res);
+});
+
+router.post('/update/:id', function (req, res) {
 	Controller.update(req, res);
 });
 

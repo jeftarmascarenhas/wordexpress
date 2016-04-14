@@ -1,14 +1,18 @@
 'use strict';
 
-var express       = require('express');
-var path          = require('path');
-var favicon       = require('serve-favicon');
-var logger        = require('morgan');
-var cookieParser  = require('cookie-parser');
-var bodyParser    = require('body-parser');
-var session       = require('express-session');
-var flash         = require('express-flash');
-var moment        = require('moment');
+var express             = require('express')
+  , path                = require('path')
+  , favicon             = require('serve-favicon')
+  , logger              = require('morgan')
+  , cookieParser        = require('cookie-parser')
+  , bodyParser          = require('body-parser')
+  , session             = require('express-session')
+  , flash               = require('express-flash')
+  , moment              = require('moment')
+  , flash               = require('express-flash')
+  , expressValidator = require('express-validator')
+  , methodOverride      = require('method-override')
+  ;
 
 /*Routers config*/
 require('./config/db.js');
@@ -26,25 +30,37 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(session({
-  secret: 'k352361pull#@',
-  resave: false,
-  saveUninitialized: true,
-  cookie: {secure: true}
-}));
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(methodOverride());
+app.use(expressValidator());
+app.use(cookieParser('keyboard cat'));
+app.use(session({
+  maxAge: 60000,
+  secret: 'k352361pull#@',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {secure: true}
+}));
 app.use(flash());
+
+// app.all('*', function(req, res, next) {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+//   res.header('Access-Control-Allow-Headers', 'Content-Type');
+//   next();
+// });
+
 
 //Helpers
 app.use(function (req, res, next) {
   res.locals.moment = moment;
   next();
+
 });
 
 app.use('/', routes);
@@ -55,7 +71,6 @@ app.use('/usuarios', users);
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
-  // next(err);
   res.render('404', {data: err});
 });
 

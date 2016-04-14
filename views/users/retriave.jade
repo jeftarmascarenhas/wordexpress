@@ -5,13 +5,10 @@ block content
 	a(href='/usuarios/cadastro', title='Cadastrar usuários', class='btn btn-success') Cadastrar
 	br
 	br
-	if (messages.erro)
+	if messages.info
 		div(class='alert alert-danger')
-			p= messages.erro
-	if (messages.info)
-		div(class='alert alert-succes')
 			p= messages.info
-	if (lista.length > 0)
+	if lista.length > 0
 		table(class='table table-striped')
 			thead
 				tr
@@ -29,6 +26,5 @@ block content
 						td #{moment(user.create_date).format('DD/MM/YYY HH:MM:ss')}
 						td 
 							a(href='/usuarios/profile/#{user._id}', title='Editar', class='btn btn-info btn-sm') <i class="fa fa-search"></i> 
-							a(href='/usuarios/delete/#{user._id}', title='Remover', class='btn btn-danger btn-sm') <i class="fa fa-trash-o"></i>
 	else
 		p Nenhum registro encontrado!
