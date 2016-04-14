@@ -14,12 +14,12 @@ block content
 			input(type='text', class='form-control', placeholder='Digite seu nome' id='fullname', value='#{data.fullname}' name='fullname', autofocus, required)
 		div(class='form-group')
 			label(for='email') E-mail:
-			input(type='email', class='form-control', placeholder='Digite seu e-mail', value='#{data.email}' id='email', name='email')
+			input(type='email', class='form-control', placeholder='Digite seu e-mail', value='#{data.email}' id='email', name='email', required)
 		div(class='form-group')
 			label(for='password') Senha:
-			input(type='password', class='form-control', placeholder='Digite sua senha',  id='password', name='password')
+			input(type='password', class='form-control', placeholder='Digite sua senha',  id='password', name='password', required)
 		div(class='form-group')
 			label(for='confirm-password') Digite novamente Senha:
-			input(type='password', class='form-control', placeholder='Digite sua senha',  id='confirm-password', name='confirm_password')
+			input(type='password', class='form-control', placeholder='Digite sua senha',  id='confirm-password', name='confirm_password', required)
 
 		input(type='submit', class='btn btn-success', value='Salva')
