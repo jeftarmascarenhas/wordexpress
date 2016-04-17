@@ -1,0 +1,19 @@
+extends ../layout
+
+block content
+  div(class='form-login center-block')
+    if messages.erro
+      div(class='alert alert-danger')
+        each msg in messages.erro
+          b= msg
+          br
+    form(enctype='x-www-form-ulrencoded', method='POST', action='/')
+      h3 Entrar no Sistema
+      p Preencha os campos necessários para acessar.
+      div(class='form-group')
+        label(for='email') E-mail
+        input(type='text', placeholder='E-mail', name='email' id='email' class='form-control', autofocus)
+      div(class='form-group')
+        label(for='password') Senha
+        input(type='password', class='form-control', placeholder='****', name='password', id='password')
+      button(type='submit', class='btn btn-primary btn-block') Entrar

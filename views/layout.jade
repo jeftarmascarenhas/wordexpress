@@ -2,12 +2,14 @@ doctype html
 html
 	include ./partials/head.jade
 	body
-		include ./partials/menu.jade
+		if (isLogged)
+			include ./partials/menu.jade
 
 		div(class='container-fluid')
 
 			block content
-				
-			include ./partials/footer.jade
+			
+			if (isLogged)
+				include ./partials/footer.jade
 		script(src='/assets/lib/jquery/dist/jquery.js', type='text/javascript')
 		block scripts

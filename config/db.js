@@ -1,21 +1,19 @@
-'use strict';
-
 var mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/wordexpress');
 var db = mongoose.connection;
 
 db.on('error', function(err) {
-	console.log('Erro de conexao.', err)
+	console.log('Erro de conexao.', err);
 });
 db.on('open', function() {
-	console.log('Conexao aberta.')
+	console.log('Conexao aberta.');
 });
 db.on('connected',function(err) {
-	console.log('Conectado')
+	console.log('Conectado');
 });
 db.on('desconnected', function(err) {
-	console.log('Desconecitado.')
+	console.log('Desconecitado.');
 });
 
 process.on('SIGINT', function () {

@@ -1,18 +1,14 @@
-'use strict';
-
-var express             = require('express')
-  , path                = require('path')
-  , favicon             = require('serve-favicon')
-  , logger              = require('morgan')
-  , cookieParser        = require('cookie-parser')
-  , bodyParser          = require('body-parser')
-  , session             = require('express-session')
-  , flash               = require('express-flash')
-  , moment              = require('moment')
-  , flash               = require('express-flash')
-  , expressValidator = require('express-validator')
-  , methodOverride      = require('method-override')
-  ;
+var flash               = require('express-flash');
+var express             = require('express');
+var path                = require('path');
+var favicon             = require('serve-favicon');
+var logger              = require('morgan');
+var cookieParser        = require('cookie-parser');
+var bodyParser          = require('body-parser');
+var session             = require('express-session');
+var moment              = require('moment');
+var expressValidator = require('express-validator');
+var methodOverride      = require('method-override');
 
 /*Routers config*/
 require('./config/db.js');
@@ -39,15 +35,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride());
 app.use(expressValidator());
 app.use(cookieParser('keyboard cat'));
-app.use(session({
-  maxAge: 60000,
-  secret: 'k352361pull#@',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {secure: true}
-}));
+app.use(session({cookie: { maxAge: 60000 }}));
 app.use(flash());
-
 // app.all('*', function(req, res, next) {
 //   res.header('Access-Control-Allow-Origin', '*');
 //   res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
@@ -58,7 +47,9 @@ app.use(flash());
 
 //Helpers
 app.use(function (req, res, next) {
-  res.locals.moment = moment;
+  res.locals.session  = req.session.usuario;
+  res.locals.isLogged = req.session.usuario ? true : false;
+  res.locals.moment   = moment;
   next();
 
 });

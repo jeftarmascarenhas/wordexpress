@@ -1,5 +1,3 @@
-'use strict';
-
 var validation = require('../validacoes/users');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
@@ -19,13 +17,10 @@ module.exports = {
 	retrieve: function (req, res) {
 		User.find(function (err, data) {
 			if(err){
-				msg = err
-				console.log('Error Find: ', msg);
-
+				msg = err;
 				res.redirect('/usuarios');
 
 			}else{
-				console.log('User find', data);
 				res.render('./users/retriave', {title:'Lista de usuários', lista: data});
 			}
 		});
@@ -43,7 +38,7 @@ module.exports = {
 			User.findOne({'email': model.email}, function (err, data) {
 				if(data){
 					req.flash('erro', 'E-mail encontra-se cadastrado, tente outro e-mail');
-					res.render('./users/create', {user: req.body})
+					res.render('./users/create', {user: req.body});
 				}else{
 					model.save(function (err, data) {
 						if(err){
@@ -73,8 +68,7 @@ module.exports = {
 				msg = err;
 				res.redirect('/usuarios');
 			}else{
-				msg = data
-				console.log('usuário listado: ' + msg);
+				msg = data;
 				res.render('./users/profile',  {title:'Perfil do usuário', data:data});
 			}
 			// res.json(msg);
@@ -94,7 +88,7 @@ module.exports = {
 			});
 
 		}else{
-			User.findOne(query, function (err, data) {
+			User.findOne({_id: req.params.id}, function (err, data) {
 				if(err){
 					req.flash('erro', 'Não foi possível busca o usuário');
 					res.redirect('/usuarios/lista');
@@ -116,7 +110,7 @@ module.exports = {
 		User.update(query, mod, function (err, data) {
 			if(err){
 				msg = err;
-				console.log('Error: ' , msg);
+
 			}else{
 				msg = data;
 				res.redirect('/usuarios/lista');
@@ -142,4 +136,4 @@ module.exports = {
 	}
 
 
-}
+};

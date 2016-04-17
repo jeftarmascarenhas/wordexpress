@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Controller = require('../controllers/users.controller.js');
+var authRouters =  require('../middleware/auth.routers');
 
 /**
  * [Router index users]
@@ -19,7 +20,7 @@ router.get('/', function (req, res) {
  * @param  {[type]} next) {             Controller.retrieve(req, res);} [Controller list all users]
  * @return {[type]}       [Render page list]
  */
-router.get('/lista', function(req, res, next) {
+router.get('/lista', authRouters, function(req, res, next) {
   Controller.retrieve(req, res);
 });
 
@@ -29,7 +30,7 @@ router.get('/lista', function(req, res, next) {
  * @param  {[type]} res) {Controller.create(req, res);} [Controller create users]
  * @return {[type]}      [Render page create users]
  */
-router.get('/cadastro', function (req, res) {
+router.get('/cadastro', authRouters, function (req, res) {
 
 	Controller.create(req, res);
 });
@@ -38,11 +39,11 @@ router.post('/cadastro', function (req, res) {
 	Controller.post(req, res);
 });
 
-router.get('/profile/:id', function (req, res) {
+router.get('/profile/:id', authRouters, function (req, res) {
 	Controller.findOne(req, res);
 });
 
-router.get('/edit/:id', function (req, res) {
+router.get('/edit/:id', authRouters, function (req, res) {
 	Controller.edit(req, res);
 });
 

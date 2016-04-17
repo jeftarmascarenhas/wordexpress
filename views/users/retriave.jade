@@ -5,8 +5,8 @@ block content
 	a(href='/usuarios/cadastro', title='Cadastrar usuários', class='btn btn-success') Cadastrar
 	br
 	br
-	if messages.info
-		div(class='alert alert-danger')
+	if (messages.info)
+		div(class='alert alert-success')
 			p= messages.info
 	if lista.length > 0
 		table(class='table table-striped')
