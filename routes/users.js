@@ -9,7 +9,7 @@ var authRouters =  require('../middleware/auth.routers');
  * @param  {[type]} res) {	Controller.index(req, res);} [controler index page users]
  * @return {[type]}      [Render page index]
  */
-router.get('/', function (req, res) {
+router.get('/', authRouters,function (req, res) {
 	Controller.index(req, res);
 });
 
