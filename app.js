@@ -16,6 +16,7 @@ require('./config/db.js');
 /*Routers config*/
 var routes  = require('./routes/index');
 var users   = require('./routes/users');
+var friends   = require('./routes/friends');
 
 
 var app = express();
@@ -56,6 +57,7 @@ app.use(function (req, res, next) {
 
 app.use('/', routes);
 app.use('/usuarios', users);
+app.use('/amigos', friends);
 
 
 // catch 404 and forward to error handler

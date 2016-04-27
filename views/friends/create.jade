@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+	h1 Cadastro de amigos
+	br
+	br
+	if messages.erro
+		div(class='alert alert-danger')
+			each msg in messages.erro
+				b= msg
+				br
+	form(enctype='x-www-form-ulrencoded', method='POST', action='/amigos/cadastro/', role='form')
+		div(class='form-group')
+			label(for='fullname') Nome:
+			input(type='text', class='form-control', placeholder='Digite seu nome' value='#{data.fullname || ""}' id='fullname', name='fullname' autofocus, required)
+		div(class='form-group')
+			label(for='email') E-mail:
+			input(type='email', class='form-control', placeholder='Digite seu e-mail', value='#{data.email || ""}' id='email', name='email', required)
+
+		input(type='submit', class='btn btn-success', value='Salva')

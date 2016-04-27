@@ -1,0 +1,30 @@
+extends ../layout
+
+block content
+	h1 Amigos
+	a(href='/amigos/cadastro', title='Cadastrar usuários', class='btn btn-success') Cadastrar
+	br
+	br
+	if (messages.info)
+		div(class='alert alert-success')
+			p= messages.info
+	if data.length > 0
+		table(class='table table-striped')
+			thead
+				tr
+					th ID:
+					th Nome:
+					th E-mail
+					th Data
+					th Ações
+			tbody
+				each user in lista
+					tr
+						td #{user._id}
+						td #{user.fullname}
+						td #{user.email}
+						td #{moment(user.create_date).format('DD/MM/YYY HH:MM:ss')}
+						td 
+							a(href='/usuarios/profile/#{user._id}', title='Editar', class='btn btn-info btn-sm') <i class="fa fa-search"></i> 
+	else
+		p Nenhum registro encontrado!
