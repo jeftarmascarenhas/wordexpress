@@ -12,9 +12,9 @@ block content
 	form(enctype='x-www-form-ulrencoded', method='POST', action='/amigos/cadastro/', role='form')
 		div(class='form-group')
 			label(for='fullname') Nome:
-			input(type='text', class='form-control', placeholder='Digite seu nome' value='#{data.fullname || ""}' id='fullname', name='fullname' autofocus, required)
+			input(type='text', class='form-control', placeholder='Digite seu nome' value='#{data.fullname || ""}' id='fullname', name='fullname' autofocus)
 		div(class='form-group')
 			label(for='email') E-mail:
-			input(type='email', class='form-control', placeholder='Digite seu e-mail', value='#{data.email || ""}' id='email', name='email', required)
+			input(type='email', class='form-control', placeholder='Digite seu e-mail', value='#{data.email || ""}' id='email', name='email')
 
 		input(type='submit', class='btn btn-success', value='Salva')

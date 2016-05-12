@@ -13,6 +13,7 @@ module.exports = {
       }else{
 
         res.render('./friends/index', {data:data});
+        console.log(data);
 
       }
 
@@ -31,10 +32,17 @@ module.exports = {
       Friends.findOne({'fullname':model.fullname}, function (err, data) {
         if(err){
           req.flash('erro', 'Nome encontra-se, informe outro');
-          res.render('./amigos/create', {data: model});
+          res.render('./friends/create', {data: model});
         }else{
-          req.flash('info', 'Registro cadastro com sucesso!');
-          res.redirect('/amigos');
+          model.save(function (err, data) {
+            if(err){
+              req.flash('erro', 'Erro ao cadastrar: ' + err);
+              res.render('./friends/create', {data: model});
+            }else{
+              req.flash('info', 'Amigo cadastro com sucesso');
+              res.redirect('/amigos');
+            }
+          });
         }
       });
     }else{
@@ -54,6 +62,17 @@ module.exports = {
     });
   },
 
+  findOne: function (req, res) {
+    var query = {_id: req.params.id};
+    Friends.findOne(query, function (err, data) {
+      if (err) {
+        req.flash('erro', 'Erro ao busca o amigo' + err);
+        res.redirect('/amigos');
+      }else{
+        res.render('./friends/edit', {title:'Editar amigos'});
+      }
+    });
+  },
   edit: function (req, res){
     var query = {_id: req.params.id};
     Friends.findById(query, function (err, data) {
@@ -61,7 +80,8 @@ module.exports = {
         req.flash('erro', 'Registro não foi possível editar!' + err);
         res.redirect('/amigos');
       }else{
-        res.render('/friends/edit', {data:data});
+        // res.render('/friends/edit', {data:data});
+        res.json(data);
       }
     });
   },
@@ -70,7 +90,7 @@ module.exports = {
     if(validation){
     var query = {_id: req.params.id};
     Friends.findById(query, function (err, data) {
-      var model = new data;
+      var model = new data ();
       model.fullname = req.body.fullname;
       model.email = req.body.email;
       model.save(function (err) {

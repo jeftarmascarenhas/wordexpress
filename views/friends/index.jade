@@ -18,13 +18,13 @@ block content
 					th Data
 					th Ações
 			tbody
-				each user in lista
+				each user in data
 					tr
 						td #{user._id}
 						td #{user.fullname}
 						td #{user.email}
 						td #{moment(user.create_date).format('DD/MM/YYY HH:MM:ss')}
 						td 
-							a(href='/usuarios/profile/#{user._id}', title='Editar', class='btn btn-info btn-sm') <i class="fa fa-search"></i> 
+							a(href='/friends/edit/#{user._id}', title='Editar', class='btn btn-info btn-sm') <i class="fa fa-search"></i> 
 	else
 		p Nenhum registro encontrado!
